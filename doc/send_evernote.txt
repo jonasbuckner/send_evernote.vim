@@ -1,0 +1,10 @@
+*send_evernote.txt*		Plugin for sending simple notes to Evernote.
+
+Send the buffer as a new note to Evernote.
+
+CONFIGURATION                                   *send_evernote_config*
+>
+    g:evernote_gmail_username       Set your GMail username
+    g:evernote_email_address        Set your Evernote mail address
+< 
+ vim:tw=78:et:ft=help:norl:
