@@ -5,7 +5,7 @@ if !exists("g:evernote_gmail_username")
   finish
 endif
 
-if !exists("g:evernote_email_address")
+if !exists("g:evernote_email_local_part")
   function! send_evernote#send()
     echo "Must set your Evernote email address."
   endfunction
@@ -31,12 +31,12 @@ endif
 python << EOF
 import vim
 
-fromaddr = 'smancill@gmail.com'
-toaddr   = vim.eval("g:evernote_email_address")
-
 server   = 'smtp.gmail.com'
 protocol = 'smtp'
 username = vim.eval("g:evernote_gmail_username")
+
+fromaddr = username + '@gmail.com'
+toaddr   = vim.eval("g:evernote_email_local_part") + '@m.evernote.com'
 
 try:
     attrs = {"server": server, "protocol": protocol}

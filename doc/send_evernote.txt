@@ -4,7 +4,7 @@ Send the buffer as a new note to Evernote.
 
 CONFIGURATION                                   *send_evernote_config*
 >
-    g:evernote_gmail_username       Set your GMail username
-    g:evernote_email_address        Set your Evernote mail address
+    g:evernote_gmail_username           Set your GMail username
+    g:evernote_email_local_part         Set your Evernote mail local part
 < 
  vim:tw=78:et:ft=help:norl:
