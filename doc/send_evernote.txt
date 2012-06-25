@@ -88,7 +88,7 @@ This can be done relatively easily with the following Python script: >
  # The latest version of this script can be found at
  #   https://github.com/smancill/send_evernote.vim
 
- import gnomekeyring as gkey
+ import gnomekeyring as gke
 
  # Place your Gmail password in this variable to run the script.
  # For security purposes, remove it directly after running or delete
@@ -98,7 +98,7 @@ This can be done relatively easily with the following Python script: >
  ## OPTIONAL SETTINGS
  gmail_username = "GMAIL_USER"  # Not necessary for the script,
                                 # but useful to keep things straight if
-				# you have multiple Gmail accounts.
+                                # you have multiple Gmail accounts.
                                 # Don't include the @gmail.com.
 
  keyring = "default"
