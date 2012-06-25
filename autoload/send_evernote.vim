@@ -61,7 +61,11 @@ from email.MIMEText import MIMEText
 
 def EvernoteSend():
     subject = vim.current.buffer[0]
-    body = '\n'.join(vim.current.buffer[2:])
+    body = '\n'.join(vim.current.buffer[1:])
+
+    body = body.lstrip('\n')    # Remove starting blank lines if present.
+                                # This will also prevent a new file being
+                                # sent with only blank lines.
 
     if len(subject) == 0 or len(body) == 0:
       print "Empty note"
