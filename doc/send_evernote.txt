@@ -1,10 +1,137 @@
 *send_evernote.txt*		Plugin for sending simple notes to Evernote.
 
-Send the buffer as a new note to Evernote.
+Author: Sebastián Mancilla Matta <http://www.alumnos.inf.utfsm.cl/~smancill>
+
+Note: Requires an Evernote and Gmail accounts, as well as Gnome Keyring
+with python-gnomekeyring configured and running on your local system.
+
+INTRODUCTION                    *send_evernote*
+
+This plugin is for sending the contents of the current vim buffer as a new
+note to Evernote.
+
+Once configured, you may call :Evernote on any open file, and its contents
+will be sent via Gmail to your Evernote account as a new note. 
+
+The first line of the buffer will be used as title of the note, and all
+subsequent lines as the body.
+
+For example, when :Evernote is called on the file: >
+
+ Evernote is Awesome
+
+ I love Evernote and Vim!
+ I could never live without this plugin.
+
+It will be sent to your Evernote account with the title "Evernote is Awesome,"
+and the body will contain the rest.
+
+The blank line between the title and the body will not be sent as the first
+line of note. The note body will start on the first non-blank line in the
+buffer.
 
 CONFIGURATION                                   *send_evernote_config*
+
+To configure, you will need an Evernote account, which you can get for free
+from http://www.evernote.com/ and a Gmail account (http://www.gmail.com). You
+will also running copy of Gnome Keyring with your Gmail credentials installed.
+
+Gnome Keyring will be launched when Gnome is installed, but can be setup to
+work with any X11 window manager, desktop environment, or on OSX via MacPorts.
+Unfortunately, there is currently no support for MS Windows.
+
+                                                *send_evernote_quick_config*
+If you already have accounts and Gnome Keyring set up, you will only need to
+set your Gmail username and Evernote email name in your ~/.vimrc:
 >
-    g:evernote_gmail_username           Set your GMail username
-    g:evernote_email_local_part         Set your Evernote mail local part
+    " Set your GMail username
+    let g:evernote_gmail_username = "GMAIL_USER"   
+    " Set your Evernote mail local part 
+    let g:evernote_email_local_part = "EVERNOTE_EMAIL"
 < 
+
+Replace the quoted strings with your actual values.
+
+                                                *send_evernote_get_ev_email*
+To find your Evernote email local part, log in to your Evernote account in
+a web browser, click your user name in the upper right-hand corner, and
+select Settings.
+
+On this page, you will see setting called "Email Notes to" and a link to your
+account's custom email address. The local part, required for your .vimrc, is
+part before the @m.evernote.com part.
+
+For example, if your address is "evernote_user.bab3@m.evernote.com", you will
+need to put "evernote_user.bab3" where it says "EVERNOTE_EMAIL" above.
+
+                                                *send_evernote_setup_keyring*
+Setting up Gnome Keyring will not be difficult if you are a Gnome user with
+Evolution installed. If you use Evolution as your client with Gmail, it's
+probable that you have everything you need and only need to put your variables
+into .vimrc (|send_evernote_quick_config|).
+
+If not and you don't want to set up Evolution, you'll need to set up an item
+containing the appropriate information in Gnome Keyring manually.
+
+If you aren't a GNOME user, you can run Gnome-keyring from a terminal with 
+the command
+    gnome-settings-daemon &
+
+You'll then need to add your Gmail password to the default keyring so it can
+be stored safely to mail your notes.
+
+This can be done relatively easily with the following Python script: >
+ #!/usr/bin/env python
+ # Send_Evernote Vim Plugin - Add Gnome_Keyring Item
+ # Released under the GPL-compatible Vim License
+ # http://vimdoc.sourceforge.net/htmldoc/uganda.html#license
+ # The latest version of this script can be found at
+ #   https://github.com/smancill/send_evernote.vim
+
+ import gnomekeyring as gkey
+
+ # Place your Gmail password in this variable to run the script.
+ # For security purposes, remove it directly after running or delete
+ # the script.
+ gmail_password = "GMAIL_PASSWORD"
+
+ ## OPTIONAL SETTINGS
+ gmail_username = "GMAIL_USER"  # Not necessary for the script,
+                                # but useful to keep things straight if
+				# you have multiple Gmail accounts.
+                                # Don't include the @gmail.com.
+
+ keyring = "default"
+ server = "smtp.gmail.com"
+ protocol = "smtp"
+ ##
+
+ name = protocol + "://"  
+ name += ('', gmail_username + "@") [gmail_username != "GMAIL_USER"]
+ name += server
+
+ id = gkey.item_create_sync(
+        keyring,
+        gkey.ITEM_NETWORK_PASSWORD,
+        name,
+        {'server':server, 'protocol':protocol},
+        gmail_password,
+        True)
+ 
+ print name + " stored in keyring " + keyring
+ 
+You can verify that it worked by opening a python prompt and entering: >
+ >>> import gnomekeyring as gkey
+
+ >>> print gkey.find_items_sync(gkey.ITEM_NETWORK_PASSWORD, {'server':'smtp.gmail.com', 'protocol':'smtp'})[0].secret
+
+to verify that it prints your password from the keyring.
+
+ABOUT                                           *send_evernote_about*
+
+This plugin is not affiliated with Evernote, Google, nor the Gnome Project.
+
+The latest version can be obtained from
+    https://github.com/smancill/send_evernote.vim
+
  vim:tw=78:et:ft=help:norl:
