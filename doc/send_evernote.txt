@@ -127,6 +127,62 @@ You can verify that it worked by opening a python prompt and entering: >
 
 to verify that it prints your password from the keyring.
 
+TIPS AND TRICKS                                 *send_evernote_tips*
+
+* TIP #1 - Send a Note into a Specific Notebook
+
+To send a note into a specific notebook, you may add @Notebook to the the title
+line. Using the example from the introduction (|send_evernote|): >
+
+ Evernote is Awesome @Send Evernote
+
+ I love Evernote and Vim!
+ I could never live without this plugin.
+
+This will create a note with the title "Evernote is Awesome" in the notebook
+"Send Evernote." Notice that the space in the middle doesn't matter, as long
+as it matches an existing notebook in your Evernote account. It is also
+case-insensitive.
+
+If you use a notebook name that does not exist, the notebook won't be created,
+but the note will still exist in your default notebook with the @notebook name
+in the title.
+
+If given multiple notebooks, the note will be placed in the first listed
+notebook with the second @notebook name in its title.
+
+* TIP #2 - Tag Your Notes
+
+To add tags to your notes, add #tagname into the title line of your note.
+Using the example from the introduction (|send_evernote|): >
+
+ Evernote is Awesome #Vim Plugins
+
+ I love Evernote and Vim!
+ I could never live without this plugin.
+
+This will create a note with the title "Evernote is Awesome" with tagged with
+the tag "Vim Plugins." The tags must already exist in your Evernote account,
+but spaces are allowed, and all tags are case-insensitive. You may also use
+multiple tags in the title, which all be assigned to the note (provided they
+already exist).
+
+Like @notebook, if the the tag doesn't exist, the #tag will just become part
+of the title of the note.
+
+Tags can also be combined with an @notebook directive for full control over
+how the note is sorted in your account.
+
+Full Example: >
+
+ Evernote is Awesome @Send Evernote #Vim Plugins #Scripts
+
+ I love Evernote and Vim!
+ I could never live without this plugin.
+
+This will create a note titled "Evernote is Awesome" in the notebook "Send
+Evernote" with the tags "Vim Plugins" and "Scripts."
+
 ABOUT                                           *send_evernote_about*
 
 This plugin is not affiliated with Evernote, Google, nor the Gnome Project.
